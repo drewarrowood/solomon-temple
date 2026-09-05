@@ -86,9 +86,16 @@ sun.shadow.camera.top = 40;
 sun.shadow.camera.bottom = -40;
 scene.add(sun);
 
-const fill = new THREE.DirectionalLight(0xa8c0e0, 0.35);
+const fill = new THREE.DirectionalLight(0xa8c0e0, 0.4);
 fill.position.set(-24, 18, -12);
 scene.add(fill);
+
+const hekalLight = new THREE.PointLight(0xffe6b8, 38, 22, 2);
+hekalLight.position.set(0, 7.2, -5);
+scene.add(hekalLight);
+const debirLight = new THREE.PointLight(0xffd27a, 22, 12, 2);
+debirLight.position.set(0, 6.2, 10);
+scene.add(debirLight);
 
 const ground = new THREE.Mesh(
   new THREE.CircleGeometry(48, 64),
@@ -100,8 +107,8 @@ ground.receiveShadow = true;
 scene.add(ground);
 
 const DEFAULT_CAM = {
-  position: new THREE.Vector3(26, 18, 32),
-  target: new THREE.Vector3(0, 4.5, -6),
+  position: new THREE.Vector3(24, 15, -36),
+  target: new THREE.Vector3(0, 5.2, -8),
 };
 
 function resetCamera() {

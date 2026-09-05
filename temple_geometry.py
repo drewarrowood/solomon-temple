@@ -107,7 +107,9 @@ MATERIALS: Dict[str, Material] = {
     "CourtStone": Material("CourtStone", (0.54, 0.51, 0.47), roughness=0.92),
     "InnerCedar": Material("InnerCedar", (0.52, 0.34, 0.18), roughness=0.5),
     "InnerGold": Material("InnerGold", (0.78, 0.62, 0.28), roughness=0.28, metallic=0.55),
-    "Gold": Material("Gold", (0.86, 0.68, 0.22), roughness=0.22, metallic=0.92),
+    "Gold": Material("Gold", (0.90, 0.72, 0.28), roughness=0.22, metallic=0.92),
+    "CherubGold": Material("CherubGold", (0.92, 0.78, 0.38), roughness=0.30, metallic=0.78),
+    "ChamberAlt": Material("ChamberAlt", (0.64, 0.55, 0.42), roughness=0.74),
     "Veil": Material("Veil", (0.42, 0.10, 0.28), roughness=0.45, alpha=0.52),
     "Water": Material("Water", (0.18, 0.32, 0.46), roughness=0.12, metallic=0.35),
     "Flame": Material("Flame", (0.95, 0.42, 0.08), roughness=0.4, emissive=(0.85, 0.28, 0.04)),
@@ -341,10 +343,10 @@ def add_menorah(scene: Scene, name: str, x: float, y: float, z0: float) -> None:
 def add_cherub(scene: Scene, name: str, x: float, y: float, z0: float, face: float) -> None:
     """Large winged guardian (10 cubits high). Angular, not figurative/Disney."""
     body_h = 3.55
-    scene.box(f"{name}_Body", (0.72, 0.58, body_h), (x, y, z0 + body_h / 2), "Gold")
-    scene.box(f"{name}_Head", (0.42, 0.38, 0.62), (x, y, z0 + body_h + 0.38), "Gold")
+    scene.box(f"{name}_Body", (0.72, 0.58, body_h), (x, y, z0 + body_h / 2), "CherubGold")
+    scene.box(f"{name}_Head", (0.42, 0.38, 0.62), (x, y, z0 + body_h + 0.38), "CherubGold")
     # Shoulders / pectoral block
-    scene.box(f"{name}_Shoulder", (1.05, 0.42, 0.38), (x, y, z0 + 3.15), "Gold")
+    scene.box(f"{name}_Shoulder", (1.05, 0.42, 0.38), (x, y, z0 + 3.15), "CherubGold")
     # Wings: 5 cubits each (2.5 m), inner wings meet over the ark.
     wing_w = 2.45
     wing_t = 0.10
@@ -358,14 +360,14 @@ def add_cherub(scene: Scene, name: str, x: float, y: float, z0: float, face: flo
         f"{name}_WingInner",
         (wing_w, wing_t, wing_h),
         (inner_x, y, wing_z),
-        "Gold",
+        "CherubGold",
         rotation=(0.0, -face * tilt, 0.0),
     )
     scene.box(
         f"{name}_WingOuter",
         (wing_w, wing_t, wing_h),
         (outer_x, y, wing_z),
-        "Gold",
+        "CherubGold",
         rotation=(0.0, face * tilt, 0.0),
     )
 
@@ -589,13 +591,14 @@ def build_scene() -> Scene:
     bay_span = MAIN_L / n_side
     n_rear = int(round(MAIN_W / BAY))
     rear_span = MAIN_W / n_rear
-    gap = 0.08
+    gap = 0.22
     z_story = z0
     for story, (sh, depth) in enumerate(zip(STORY_HEIGHTS, STORY_DEPTHS), start=1):
         zc = z_story + sh / 2
         for i in range(n_side):
             by = main_y0 + (i + 0.5) * bay_span
             blen = bay_span - gap
+            bay_mat = "Sandstone" if i % 2 == 0 else "ChamberAlt"
             for side, sx, cut in (
                 ("L", -1.0, False),
                 ("R", 1.0, True),
@@ -605,7 +608,7 @@ def build_scene() -> Scene:
                     f"SideChamber_{side}{story}_B{i+1:02d}",
                     (depth, blen, sh - 0.04),
                     (cx, by, zc),
-                    "Sandstone",
+                    bay_mat,
                     cutaway=cut,
                 )
                 if story == 1:
@@ -622,7 +625,7 @@ def build_scene() -> Scene:
                 f"SideChamber_Rear{story}_B{i+1:02d}",
                 (rear_span - gap, depth, sh - 0.04),
                 (bx, main_y0 - depth / 2, zc),
-                "Sandstone",
+                "Sandstone" if i % 2 == 0 else "ChamberAlt",
             )
         z_story += sh
 
