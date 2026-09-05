@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="A readable 3D reconstruction of Solomon’s Temple from 1 Kings 6 and 2 Chronicles 3–4." />
+    <title>Solomon’s Temple — First Temple</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.170.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.170.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <div class="brand">
+          <p class="eyebrow">1 Kings 6 · 2 Chronicles 3–4</p>
+          <h1>Solomon’s Temple</h1>
+          <p class="sub">A readable reconstruction of the First Temple — not an archaeological claim.</p>
+        </div>
+        <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="panel">
+          Guide
+        </button>
+      </header>
+
+      <aside class="panel" id="panel">
+        <section>
+          <h2>View</h2>
+          <label class="toggle"><input type="checkbox" id="opt-cutaway" checked /> Cutaway (see interiors)</label>
+          <label class="toggle"><input type="checkbox" id="opt-roof" checked /> Roof</label>
+          <label class="toggle"><input type="checkbox" id="opt-labels" checked /> Labels</label>
+          <button type="button" class="btn" id="btn-reset">Reset camera</button>
+        </section>
+        <section>
+          <h2>Legend</h2>
+          <ul class="legend" id="legend"></ul>
+        </section>
+        <section class="notes">
+          <h2>How to read this</h2>
+          <p>
+            Cubits are drawn at <strong>0.5&nbsp;m</strong>. The house is 60 × 20 × 30 cubits; the inner sanctuary is a
+            20-cubit cube. Side chambers step 5 / 6 / 7 cubits high and wide.
+          </p>
+          <p>
+            Furnishings are stylized stand-ins (ark, cherubim, lampstands, showbread, incense altar, bronze sea and
+            altar) so the plan can be orbited and studied.
+          </p>
+        </section>
+      </aside>
+
+      <div id="canvas-wrap">
+        <div id="loader">
+          <div class="spinner" aria-hidden="true"></div>
+          <p>Loading temple…</p>
+        </div>
+        <div id="hint">Drag to orbit · Scroll to zoom · Two-finger pan</div>
+      </div>
+    </div>
+    <script type="module" src="./js/viewer.js"></script>
+  </body>
+</html>
